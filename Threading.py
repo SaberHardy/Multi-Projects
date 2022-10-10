@@ -23,9 +23,14 @@ def second_threading_func(n):
 x = threading.Thread(target=first_threading_func, args=(5,))
 x.start()
 
+x.join()
+
 y = threading.Thread(target=first_threading_func, args=(5,))
 y.start()
 
+y.join()
+# the result is [1,1] why? => this is because the two of threads is slept
+# The solution of this problem is to use .join(this mean don't move to next
+# step until finish the step before)
 print(f"Number of processors used: {threading.activeCount()}")
 print(list_items)
-# the result is [1,1] why? => this is because the two of threads is slept
