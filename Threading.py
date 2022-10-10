@@ -37,14 +37,29 @@ print(list_items)
 """
 
 
-def task(sleep_time, message):
-    time.sleep(sleep_time)
-    print(str(message))
+# def task(sleep_time, message):
+#     time.sleep(sleep_time)
+#     print(str(message))
+#
+#
+# thread = threading.Thread(target=task, args=(3, "this is from arguments"))
+# thread.start()
+# print("waiting the thread!!")
+# print("waiting the thread!!")
+# print("waiting the thread!!")
+# thread.join()
+
+class CustomThread(threading.Thread):
+
+    def run(self):
+        time.sleep(3)
+        print("This was stopped for 3 sec")
+        self.value = 99
+        time.sleep(3)
 
 
-thread = threading.Thread(target=task, args=(3, "this is from arguments"))
-thread.start()
-print("waiting the thread!!")
-print("waiting the thread!!")
-print("waiting the thread!!")
-thread.join()
+thread_class = CustomThread()
+thread_class.start()
+print("\n\nWaiting for the thread to excute....")
+thread_class.join()
+print(f"the value from run function is {thread_class.value}")
