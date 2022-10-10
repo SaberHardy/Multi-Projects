@@ -4,7 +4,7 @@ import time
 """
 To create a thread we should make a function that act like a thread.
 """
-
+"""
 list_items = []
 
 
@@ -34,3 +34,17 @@ y.join()
 # step until finish the step before)
 print(f"Number of processors used: {threading.activeCount()}")
 print(list_items)
+"""
+
+
+def task(sleep_time, message):
+    time.sleep(sleep_time)
+    print(str(message))
+
+
+thread = threading.Thread(target=task, args=(3, "this is from arguments"))
+thread.start()
+print("waiting the thread!!")
+print("waiting the thread!!")
+print("waiting the thread!!")
+thread.join()
