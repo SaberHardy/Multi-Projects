@@ -52,14 +52,23 @@ print(list_items)
 class CustomThread(threading.Thread):
 
     def run(self):
-        time.sleep(3)
+        time.sleep(1)
         print("This was stopped for 3 sec")
         self.value = 99
-        time.sleep(3)
+        time.sleep(1)
 
 
 thread_class = CustomThread()
+thread_class.name = "FirstThreadName"
 thread_class.start()
 print("\n\nWaiting for the thread to excute....")
+print(f"is_alive is {thread_class.is_alive()}")  # True
+
 thread_class.join()
 print(f"the value from run function is {thread_class.value}")
+print(f"the name is {thread_class.name}")
+print(f"the daemon is {thread_class.daemon}")
+print(f"the ident is {thread_class.ident}")
+print(f"the native id is {thread_class.native_id}")
+print(f"is_alive is {thread_class.is_alive()}")  # False
+print(f"Thread name is {thread_class.name}")  # False
