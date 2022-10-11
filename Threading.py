@@ -1,4 +1,5 @@
 import threading
+from threading import get_native_id
 import time
 
 """
@@ -49,26 +50,39 @@ print(list_items)
 # print("waiting the thread!!")
 # thread.join()
 
-class CustomThread(threading.Thread):
+# class CustomThread(threading.Thread):
+#
+#     def run(self):
+#         time.sleep(1)
+#         print("This was stopped for 3 sec")
+#         self.value = 99
+#         time.sleep(1)
+#
+#
+# thread_class = CustomThread()
+# thread_class.name = "FirstThreadName"
+# thread_class.start()
+# print("\n\nWaiting for the thread to excute....")
+# print(f"is_alive is {thread_class.is_alive()}")  # True
+#
+# thread_class.join()
+# print(f"the value from run function is {thread_class.value}")
+# print(f"the name is {thread_class.name}")
+# print(f"the daemon is {thread_class.daemon}")
+# print(f"the ident is {thread_class.ident}")
+# print(f"the native id is {thread_class.native_id}")
+# print(f"is_alive is {thread_class.is_alive()}")  # False
+# print(f"Thread name is {thread_class.name}")  # False
 
-    def run(self):
-        time.sleep(1)
-        print("This was stopped for 3 sec")
-        self.value = 99
-        time.sleep(1)
 
+""""Main Thread / enumerated threads"""
 
-thread_class = CustomThread()
-thread_class.name = "FirstThreadName"
-thread_class.start()
-print("\n\nWaiting for the thread to excute....")
-print(f"is_alive is {thread_class.is_alive()}")  # True
+# thread = threading.current_thread()
+# identifier = get_native_id()
+# print(f"name: {thread.name} daemon: {thread.daemon} "
+#       f"id: {thread.ident} Native Id: {identifier}")
 
-thread_class.join()
-print(f"the value from run function is {thread_class.value}")
-print(f"the name is {thread_class.name}")
-print(f"the daemon is {thread_class.daemon}")
-print(f"the ident is {thread_class.ident}")
-print(f"the native id is {thread_class.native_id}")
-print(f"is_alive is {thread_class.is_alive()}")  # False
-print(f"Thread name is {thread_class.name}")  # False
+"""Enumerate threads"""
+threads = threading.enumerate()
+for thr in threads:
+    print(f"thread-{thr.name}")
