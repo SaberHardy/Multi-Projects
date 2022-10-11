@@ -37,7 +37,6 @@ print(f"Number of processors used: {threading.activeCount()}")
 print(list_items)
 """
 
-
 # def task(sleep_time, message):
 #     time.sleep(sleep_time)
 #     print(str(message))
@@ -83,6 +82,34 @@ print(list_items)
 #       f"id: {thread.ident} Native Id: {identifier}")
 
 """Enumerate threads"""
-threads = threading.enumerate()
-for thr in threads:
-    print(f"thread-{thr.name}")
+# threads = threading.enumerate()
+# for thr in threads:
+#     print(f"thread-{thr.name}")
+
+"""Thread-Local Data"""
+
+
+def task(time_to_sleep):
+    local = threading.local()
+    local.value = time_to_sleep
+    time.sleep(time_to_sleep)
+
+    print(f"Time to sleep is: {local.value}")
+
+
+# create and start a thread
+threading.Thread(target=task, args=(1,)).start()
+
+# create and start another thread
+
+threading.Thread(target=task, args=(3,)).start()
+print(f"the name is: {threading.Thread().name}")
+threading.Thread(target=task, args=(4,)).start()
+print(f"the name is: {threading.Thread().name}")
+threading.Thread(target=task, args=(5,)).start()
+print(f"the name is: {threading.Thread().name}")
+threading.Thread(target=task, args=(2,)).start()
+print(f"the name is: {threading.Thread().name}")
+threading.Thread(target=task, args=(2,)).start()
+print(f"the name is: {threading.Thread().name}")
+print(f"Active threads counted: {threading.active_count()}")
