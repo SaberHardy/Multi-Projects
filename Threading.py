@@ -38,7 +38,6 @@ print(f"Number of processors used: {threading.activeCount()}")
 print(list_items)
 """
 
-
 # def task(sleep_time, message):
 #     time.sleep(sleep_time)
 #     print(str(message))
@@ -126,51 +125,70 @@ same thread. In the locked state, some thread owns the lock; in the unlocked sta
 no thread owns it.
 """
 
+#
+# def report_thread(lock, id):
+#     with lock:
+#         print(f"> The Thread {id} is done")
+#
+#
+# def task(lock, identifier, value):
+#     with lock:
+#         print(f"> The thread {identifier} is sleeping for {value} seconds")
+#         time.sleep(value)
+#         report_thread(lock, identifier)
+#
+#
+# # Create shared lock
+# lock = threading.RLock()
+# for i in range(10):
+#     threading.Thread(target=task, args=(lock, i, random())).start()
+# # threads = threading.enumerate()
+# # for thr in threads:
+# #     print(f"thread-{thr.name}")
+#
+# """Thread-Local Data"""
+#
+#
+# def task(time_to_sleep):
+#     local = threading.local()
+#     local.value = time_to_sleep
+#     time.sleep(time_to_sleep)
+#
+#     print(f"Time to sleep is: {local.value}")
+#
+#
+# # create and start a thread
+# threading.Thread(target=task, args=(1,)).start()
+#
+# # create and start another thread
+#
+# threading.Thread(target=task, args=(3,)).start()
+# print(f"the name is: {threading.Thread().name}")
+# threading.Thread(target=task, args=(4,)).start()
+# print(f"the name is: {threading.Thread().name}")
+# threading.Thread(target=task, args=(5,)).start()
+# print(f"the name is: {threading.Thread().name}")
+# threading.Thread(target=task, args=(2,)).start()
+# print(f"the name is: {threading.Thread().name}")
+# threading.Thread(target=task, args=(2,)).start()
+# print(f"the name is: {threading.Thread().name}")
+# print(f"Active threads counted: {threading.active_count()}")
 
-def report_thread(lock, id):
-    with lock:
-        print(f"> The Thread {id} is done")
+
+# SuperFastPython.com
+# example of wait/notify with a condition
+from threading import Timer
 
 
-def task(lock, identifier, value):
-    with lock:
-        print(f"> The thread {identifier} is sleeping for {value} seconds")
-        time.sleep(value)
-        report_thread(lock, identifier)
+# target task function
+def task(message):
+    # report the custom message
+    print(message)
 
 
-# Create shared lock
-lock = threading.RLock()
-for i in range(10):
-    threading.Thread(target=task, args=(lock, i, random())).start()
-# threads = threading.enumerate()
-# for thr in threads:
-#     print(f"thread-{thr.name}")
-
-"""Thread-Local Data"""
-
-
-def task(time_to_sleep):
-    local = threading.local()
-    local.value = time_to_sleep
-    time.sleep(time_to_sleep)
-
-    print(f"Time to sleep is: {local.value}")
-
-
-# create and start a thread
-threading.Thread(target=task, args=(1,)).start()
-
-# create and start another thread
-
-threading.Thread(target=task, args=(3,)).start()
-print(f"the name is: {threading.Thread().name}")
-threading.Thread(target=task, args=(4,)).start()
-print(f"the name is: {threading.Thread().name}")
-threading.Thread(target=task, args=(5,)).start()
-print(f"the name is: {threading.Thread().name}")
-threading.Thread(target=task, args=(2,)).start()
-print(f"the name is: {threading.Thread().name}")
-threading.Thread(target=task, args=(2,)).start()
-print(f"the name is: {threading.Thread().name}")
-print(f"Active threads counted: {threading.active_count()}")
+# create a thread timer object
+timer = Timer(3, task, args=('Hello world',))
+# start the timer object
+timer.start()
+# wait for the timer to finish
+print('Waiting for the timer...')
