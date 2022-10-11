@@ -1,4 +1,5 @@
 import threading
+from random import random
 from threading import get_native_id
 import time
 
@@ -88,28 +89,56 @@ print(list_items)
 
 """Thread-Local Data"""
 
+#
+# def task(time_to_sleep):
+#     local = threading.local()
+#     local.value = time_to_sleep
+#     time.sleep(time_to_sleep)
+#
+#     print(f"Time to sleep is: {local.value}")
+#
+#
+# # create and start a thread
+# threading.Thread(target=task, args=(1,)).start()
+#
+# # create and start another thread
+#
+# threading.Thread(target=task, args=(3,)).start()
+# print(f"the name is: {threading.Thread().name}")
+# threading.Thread(target=task, args=(4,)).start()
+# print(f"the name is: {threading.Thread().name}")
+# threading.Thread(target=task, args=(5,)).start()
+# print(f"the name is: {threading.Thread().name}")
+# threading.Thread(target=task, args=(2,)).start()
+# print(f"the name is: {threading.Thread().name}")
+# threading.Thread(target=task, args=(2,)).start()
+# print(f"the name is: {threading.Thread().name}")
+# print(f"Active threads counted: {threading.active_count()}")
 
-def task(time_to_sleep):
-    local = threading.local()
-    local.value = time_to_sleep
-    time.sleep(time_to_sleep)
+"""
+------ Reentrant Lock ------
 
-    print(f"Time to sleep is: {local.value}")
+What is a Reentrant Lock?
+
+A reentrant lock is a synchronization primitive that may be acquired multiple times by the 
+same thread. In the locked state, some thread owns the lock; in the unlocked state, 
+no thread owns it.
+"""
 
 
-# create and start a thread
-threading.Thread(target=task, args=(1,)).start()
+def report_thread(lock, id):
+    with lock:
+        print(f"> The Thread {id} is done")
 
-# create and start another thread
 
-threading.Thread(target=task, args=(3,)).start()
-print(f"the name is: {threading.Thread().name}")
-threading.Thread(target=task, args=(4,)).start()
-print(f"the name is: {threading.Thread().name}")
-threading.Thread(target=task, args=(5,)).start()
-print(f"the name is: {threading.Thread().name}")
-threading.Thread(target=task, args=(2,)).start()
-print(f"the name is: {threading.Thread().name}")
-threading.Thread(target=task, args=(2,)).start()
-print(f"the name is: {threading.Thread().name}")
-print(f"Active threads counted: {threading.active_count()}")
+def task(lock, identifier, value):
+    with lock:
+        print(f"> The thread {identifier} is sleeping for {value} seconds")
+        time.sleep(value)
+        report_thread(lock, identifier)
+
+
+# Create shared lock
+lock = threading.RLock()
+for i in range(10):
+    threading.Thread(target=task, args=(lock, i, random())).start()
