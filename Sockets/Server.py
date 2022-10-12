@@ -1,7 +1,7 @@
 import socket
 import threading
 
-LENGTH_MSG = 1024  # bytes
+LENGTH_MSG = 64  # bytes
 PORT = 1500
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = '!Disconnect'
@@ -29,7 +29,7 @@ def handle_client(conn, addr):
             if msg == DISCONNECT_MESSAGE:
                 connected = False
 
-            print(f"{addr} - {msg}")
+            print(f"Client \"{addr[0]}\" sent ==> {msg}")
             conn.send("Msg received".encode(FORMAT))
 
     conn.close()
